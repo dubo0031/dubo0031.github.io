@@ -111,7 +111,7 @@ function create() {
     callback: function() {
       if(!this.paused){
       var num =Phaser.Math.Between(1, 3);
-      var aste= this.physics.add.image(Phaser.Math.Between(1, width*0.95), 50, 'aste'+num);
+      var aste= this.physics.add.image(Phaser.Math.Between(5, width*0.90), 50, 'aste'+num);
       aste.angle= Phaser.Math.Between(1, 360);
       this.physics.moveTo(aste, aste.x, 1000, 100);
       timerspawn = this.time.now;
