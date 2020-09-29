@@ -111,7 +111,7 @@ function create() {
     callback: function() {
       if(!this.paused){
       var num =Phaser.Math.Between(1, 3);
-      var aste= this.physics.add.image(Phaser.Math.Between(5, width*0.90), 50, 'aste'+num);
+      var aste= this.physics.add.image(Phaser.Math.Between(width*0.2, width*0.80), 50, 'aste'+num);
       aste.angle= Phaser.Math.Between(1, 360);
       this.physics.moveTo(aste, aste.x, 1000, 100);
       timerspawn = this.time.now;
@@ -127,8 +127,8 @@ function create() {
         }
         if(body.gameObject.texture.key != 'bullet'){
           this.physics.pause();
-          this.add.text(width/2*0.90, height/2, 'GAME OVER', { fontSize: '32px', fill: '#FFF' });
-          this.reset =this.add.text(width/2*0.90, height/2+30, 'Restart', { fontSize: '32px', fill: '#FFF' })
+          this.add.text(width/2*0.80, height/2, 'GAME OVER', { fontSize: '32px', fill: '#FFF' });
+          this.reset =this.add.text(width/2*0.80, height/2+30, 'Restart', { fontSize: '32px', fill: '#FFF' })
           .setInteractive()
           .on('pointerdown', () => window.location.reload(false) )
           .on('pointerover', () => this.reset.setStyle({ fill: '#ff0'}))
