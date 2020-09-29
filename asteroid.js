@@ -1,6 +1,6 @@
 
 var width = window.screen.width*0.99;
-var height = window.screen.height*0.80;
+var height = window.screen.height*0.60;
 
 console.log(width, height);
 
