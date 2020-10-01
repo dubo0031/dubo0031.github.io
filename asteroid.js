@@ -1,8 +1,7 @@
 
-var width = window.screen.width*0.99;
-var height = window.screen.height*0.80;
+var width = window.screen.width;
+var height = window.screen.height*0.9;
 
-console.log(width, height);
 
 var config = {
     type: Phaser.AUTO,
@@ -31,6 +30,8 @@ var shoots;
 var asteroids;
 var paused=false;
 var reset;
+var delay = 1000;
+var delaycontrol=0;
 function preload() {
   //console.log(this);
   this.load.setBaseURL('phaser');
@@ -40,16 +41,19 @@ function preload() {
     this.load.image('aste2', 'assets/games/asteroids/asteroid2.png');
     this.load.image('aste3', 'assets/games/asteroids/asteroid3.png');
     this.load.image('flash', 'assets/games/asteroids/muzzle-flash.png');
+    this.load.image('fond', 'assets/games/invaders/starfield.png');
 }
 
 function create() {
+  this.add.tileSprite(0, 0, width*3, height*3, 'fond');
   scoreText = this.add.text(16, 16, 'Score: 0', { fontSize: '32px', fill: '#FFF' });
+  this.add.text(16, height*0.9, 'Dev: Rémy Dubois', { fontSize: '20px', fill: '#FFF' });
   this.shoots = this.add.group();
   this.asteroids = this.add.group();
     //this.physics.startSystem(Phaser.Physics.ARCADE);
     timer=this.time.now;
     timerspawn=0;
-    sprite = this.add.sprite(width/2, height*0.9, 'ship');
+    sprite = this.add.sprite(width/2, height*0.95, 'ship');
     //sprite.anchor.set(0.5);
     sprite.angle = 270;
     this.scene.backgroundColor = '#313131';
@@ -84,7 +88,7 @@ function create() {
         bullet.outOfBoundsKill = true;
         bullet.setVisible(true);
         bullet.setActive(true);
-        this.physics.moveToObject(bullet, pointer, 1000);
+        this.physics.moveToObject(bullet, pointer, 2000);
         timer = this.time.now;
 
         bullet.setCollideWorldBounds(true);
@@ -107,7 +111,7 @@ function create() {
   }, this);
 
   this.time.addEvent({
-    delay: 1000,
+    delay: delay,
     callback: function() {
       if(!this.paused){
       var num =Phaser.Math.Between(1, 3);
@@ -125,7 +129,6 @@ function create() {
           aste.setActive(false);
           aste.setVisible(false);
         }
-        console.log(body.gameObject);
         if(body.gameObject.texture.key != 'bullet'){
           this.physics.pause();
           this.add.text(width/2*0.85, height/2, 'GAME OVER', { fontSize: '32px', fill: '#FFF' });
@@ -166,6 +169,11 @@ function update() {
 
     this.physics.overlap(this.shoots, this.asteroids, collisionHandler, null, this);
 
+    if(this.time.now > delaycontrol+50000){
+      delaycontrol+= 50000;
+      delay= delay*0.7;
+    }
+
     //sprite.rotation = this.physics.arcade.angleToPointer(sprite);
 
     /*if (this.input.activePointer.isDown)
@@ -185,7 +193,6 @@ function update() {
 }
 
 function gameOver(){
-  console.log(this);
   this.Phaser.Physics.Arcade.Events.pause();
   this.add.Text(width/2*0,80, height/2, 'GAME OVER', { fontSize: '32px', fill: '#FFF' });
 }
